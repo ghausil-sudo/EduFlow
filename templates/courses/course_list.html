@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Daftar Kursus{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Daftar Kursus</h2>
+            <p>Temukan kursus yang sesuai minat Anda</p>
+        </div>
+
+        <div class="row g-3 mb-5" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-5">
+                <form method="GET" class="position-relative">
+                    <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                    <input class="form-control form-control-custom ps-5" type="search" name="q" placeholder="Cari kursus, kategori..." value="{{ query }}">
+                </form>
+            </div>
+            <div class="col-lg-3">
+                <select name="category" class="form-select form-control-custom" onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat.slug }}" {% if cat.slug == selected_category %}selected{% endif %}>{{ cat.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <select name="level" class="form-select form-control-custom" onchange="this.form.submit()">
+                    <option value="">Semua Level</option>
+                    <option value="Pemula" {% if selected_level == 'Pemula' %}selected{% endif %}>Pemula</option>
+                    <option value="Menengah" {% if selected_level == 'Menengah' %}selected{% endif %}>Menengah</option>
+                    <option value="Lanjutan" {% if selected_level == 'Lanjutan' %}selected{% endif %}>Lanjutan</option>
+                </select>
+            </div>
+        </div>
+        <form method="GET" class="d-none" id="filterForm">
+            {% if query %}<input type="hidden" name="q" value="{{ query }}">{% endif %}
+            {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+            {% if selected_level %}<input type="hidden" name="level" value="{{ selected_level }}">{% endif %}
+        </form>
+
+        {% if page_obj %}
+        <div class="row g-4">
+            {% for course in page_obj %}
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|floatformat:0 }}0">
+                <div class="card-custom h-100">
+                    <div class="card-img-wrapper">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">
+                            <i class="bi bi-image text-white fs-1"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge badge-gradient-primary">{{ course.category.name }}</span>
+                            <span class="badge" style="background: #fef3c7; color: #92400e;"><i class="bi bi-star-fill me-1"></i>{{ course.rating|floatformat:1 }}</span>
+                        </div>
+                        <h5 class="card-title mb-2">{{ course.title }}</h5>
+                        <p class="card-text text-muted small mb-2">{{ course.short_description|truncatechars:80 }}</p>
+                        <p class="text-muted small mb-3"><i class="bi bi-person-badge me-1"></i>{{ course.instructor.name }}</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold" style="color: var(--ef-primary); font-size: 1.05rem;">Rp {{ course.price|floatformat:0 }}</span>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn btn-primary btn-sm">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if page_obj.has_other_pages %}
+        <nav class="mt-5" data-aos="fade-up">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link rounded-start-pill" href="?page={{ page_obj.previous_page_number }}&q={{ query }}&category={{ selected_category }}&level={{ selected_level }}">Sebelumnya</a>
+                </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}&q={{ query }}&category={{ selected_category }}&level={{ selected_level }}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link rounded-end-pill" href="?page={{ page_obj.next_page_number }}&q={{ query }}&category={{ selected_category }}&level={{ selected_level }}">Selanjutnya</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+        {% else %}
+        <div class="text-center py-5" data-aos="fade-up">
+            <i class="bi bi-search text-muted fs-1"></i>
+            <p class="text-muted mt-2">Tidak ada kursus yang sesuai dengan pencarian Anda.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

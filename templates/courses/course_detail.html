@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-custom">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Beranda</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'course_list' %}">Kursus</a></li>
+                <li class="breadcrumb-item active">{{ course.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                {% if course.thumbnail %}
+                <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="img-fluid rounded shadow mb-4 w-100" style="max-height: 380px; object-fit: cover; border-radius: var(--ef-radius-xl);">
+                {% else %}
+                <div class="rounded shadow mb-4 d-flex align-items-center justify-content-center" style="height: 320px; background: linear-gradient(135deg, #e0e7ff, #c7d2fe); border-radius: var(--ef-radius-xl);">
+                    <i class="bi bi-image text-white fs-1"></i>
+                </div>
+                {% endif %}
+
+                <div class="card-custom p-4 mb-4">
+                    <h1 class="fw-bold mb-3">{{ course.title }}</h1>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <span class="badge badge-gradient-primary">{{ course.category.name }}</span>
+                        <span class="badge" style="background: #cffafe; color: #0e7490;">{{ course.level }}</span>
+                        <span class="badge" style="background: #fef3c7; color: #92400e;"><i class="bi bi-star-fill me-1"></i>{{ course.rating|floatformat:1 }}</span>
+                        <span class="badge" style="background: var(--ef-border-light); color: var(--ef-text-secondary);"><i class="bi bi-people me-1"></i>{{ course.enrolled_count }} peserta</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-3 text-muted small mb-3">
+                        <span><i class="bi bi-calendar-event me-1"></i>Mulai: {{ course.start_date|date:"d F Y" }}</span>
+                        <span><i class="bi bi-clock me-1"></i>Durasi: {{ course.duration_days }} hari</span>
+                        <span><i class="bi bi-person-badge me-1"></i>Instruktur: {{ course.instructor.name }}</span>
+                    </div>
+                    <hr class="my-4">
+                    <h4 class="fw-bold mb-3">Deskripsi Kursus</h4>
+                    <p class="text-muted" style="white-space: pre-line; line-height: 1.8;">{{ course.description }}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="course-sidebar-card">
+                    <div class="course-price-large">Rp {{ course.price|floatformat:0 }}</div>
+                    {% if is_enrolled %}
+                    {% if enrollment.status == 'Aktif' %}
+                    <a href="#" class="btn btn-success w-100 py-2 mb-2" style="border-radius: var(--ef-radius);">
+                        <i class="bi bi-play-circle me-2"></i>Lanjutkan Belajar
+                    </a>
+                    {% elif enrollment.status == 'Pending' %}
+                    <a href="{% url 'payment_instructions' pending_transaction.invoice_number %}" class="btn w-100 py-2 mb-2" style="background: linear-gradient(135deg, var(--ef-accent), #d97706); color: #fff; border: none; border-radius: var(--ef-radius); box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);">
+                        <i class="bi bi-wallet2 me-2"></i>Selesaikan Pembayaran
+                    </a>
+                    {% endif %}
+                    <div class="alert alert-info small" style="border-radius: var(--ef-radius); border: none; background: var(--ef-primary-soft); color: var(--ef-primary-dark);">
+                        <i class="bi bi-info-circle me-1"></i>Status: {{ enrollment.status }}
+                    </div>
+                    {% else %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'enroll_course' course.slug %}" class="btn btn-primary w-100 py-2 mb-2" style="border-radius: var(--ef-radius);">
+                        <i class="bi bi-bookmark-plus me-2"></i>Daftar Kursus Ini
+                    </a>
+                    {% else %}
+                    <a href="{% url 'login' %}?next={% url 'course_detail' course.slug %}" class="btn btn-primary w-100 py-2 mb-2" style="border-radius: var(--ef-radius);">
+                        <i class="bi bi-bookmark-plus me-2"></i>Daftar Kursus Ini
+                    </a>
+                    <small class="text-muted d-block text-center">Login terlebih dahulu untuk mendaftar</small>
+                    {% endif %}
+                    {% endif %}
+
+                    {% if user.is_authenticated and not is_enrolled %}
+                    <a href="{% url 'purchase_confirm_course' course.slug %}" class="btn btn-outline-primary w-100 py-2 mt-2" style="border-radius: var(--ef-radius);">Beli Sekarang</a>
+                    {% endif %}
+
+                    <hr class="my-4">
+                    <h6 class="fw-bold mb-3">Kursus ini mencakup:</h6>
+                    <ul class="course-feature-list">
+                        <li><i class="bi bi-check-circle-fill"></i>Akses penuh ke materi</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Sertifikat penyelesaian</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Forum diskusi</li>
+                        <li><i class="bi bi-check-circle-fill"></i>Mentoring dari instruktur</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Beranda - EduFlow{% endblock %}
+
+{% block content %}
+<section class="hero-section" data-aos="fade-in">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <div class="hero-badge">
+                    <i class="bi bi-star-fill"></i> Platform #1 Pembelajaran Online
+                </div>
+                <h1 class="hero-title">
+                    Tingkatkan Skill Anda<br>Bersama <span>EduFlow</span>
+                </h1>
+                <p class="hero-desc">
+                    Akses ratusan kursus online dari instruktur profesional untuk masa karir yang lebih cerah. Belajar fleksibel, dapatkan sertifikat, dan bergabung dengan komunitas terbesar.
+                </p>
+                <div class="hero-actions">
+                    <a href="{% url 'course_list' %}" class="btn btn-light-custom btn-lg px-4">
+                        <i class="bi bi-search me-2"></i>Lihat Kursus
+                    </a>
+                    <a href="{% url 'package_list' %}" class="btn btn-outline-light-custom btn-lg px-4">
+                        Lihat Paket
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 hero-img-wrapper text-center">
+                <div class="book-3d-wrapper" id="book3d" aria-label="Ilustrasi buku 3D interaktif">
+                    <div class="book-3d-glow"></div>
+                    <div class="book-3d">
+                        <div class="book-3d-cover">
+                            <div class="book-3d-spine"></div>
+                            <div class="book-3d-front">
+                                <div class="book-3d-title">EduFlow</div>
+                                <div class="book-3d-subtitle">Belajar Jadi Mudah</div>
+                                <div class="book-3d-accent-line"></div>
+                            </div>
+                            <div class="book-3d-back"></div>
+                        </div>
+                        <div class="book-3d-spread">
+                            <div class="book-3d-page-left"></div>
+                            <div class="book-3d-page-right"></div>
+                            <div class="book-3d-gutter"></div>
+                        </div>
+                        <div class="book-3d-edge-stack">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="book-3d-float-icons">
+                        <div class="float-icon icon-1"><i class="bi bi-mortarboard-fill"></i></div>
+                        <div class="float-icon icon-2"><i class="bi bi-lightbulb-fill"></i></div>
+                        <div class="float-icon icon-3"><i class="bi bi-pencil-fill"></i></div>
+                        <div class="float-icon icon-4"><i class="bi bi-star-fill"></i></div>
+                        <div class="float-icon icon-5"><i class="bi bi-patch-check-fill"></i></div>
+                        <div class="float-icon icon-6"><i class="bi bi-book-half"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-py">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Kenapa Memilih Kami?</h2>
+            <p>Keunggulan yang membuat EduFlow menjadi pilihan terbaik</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="0">
+                <div class="text-center p-4 card-custom h-100">
+                    <div class="stat-icon" style="background: var(--ef-primary-soft); color: var(--ef-primary);">
+                        <i class="bi bi-person-video3"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Instruktur Ahli</h5>
+                    <p class="text-muted mb-0 small">Belajar dari profesional di bidangnya.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center p-4 card-custom h-100">
+                    <div class="stat-icon" style="background: #cffafe; color: var(--ef-secondary);">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Belajar Fleksibel</h5>
+                    <p class="text-muted mb-0 small">Akses kapan saja dan di mana saja.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center p-4 card-custom h-100">
+                    <div class="stat-icon" style="background: #fef3c7; color: var(--ef-accent);">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Sertifikat Resmi</h5>
+                    <p class="text-muted mb-0 small">Dapatkan sertifikat setelah menyelesaikan kursus.</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center p-4 card-custom h-100">
+                    <div class="stat-icon" style="background: #d1fae5; color: var(--ef-success);">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Komunitas Besar</h5>
+                    <p class="text-muted mb-0 small">Bergabung dengan ribuan pelajar lainnya.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-py" style="background: var(--ef-bg);">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Kursus Unggulan</h2>
+            <p>Pilihan kursus favorit dari para pelajar</p>
+        </div>
+        <div class="row g-4">
+            {% for course in featured_courses %}
+            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:forloop.counter0|floatformat:0 }}0">
+                <div class="card-custom h-100">
+                    <div class="card-img-wrapper">
+                        {% if course.thumbnail %}
+                        <img src="{{ course.thumbnail.url }}" alt="{{ course.title }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                        <div class="card-img-top d-flex align-items-center justify-content-center" style="height: 200px; background: linear-gradient(135deg, #e0e7ff, #c7d2fe);">
+                            <i class="bi bi-image text-white fs-1"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge badge-gradient-primary">{{ course.category.name }}</span>
+                            <span class="badge" style="background: #fef3c7; color: #92400e;"><i class="bi bi-star-fill me-1"></i>{{ course.rating|floatformat:1 }}</span>
+                        </div>
+                        <h5 class="card-title mb-2">{{ course.title }}</h5>
+                        <p class="card-text text-muted small mb-3">{{ course.short_description|truncatechars:80 }}</p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <span class="fw-bold" style="color: var(--ef-primary); font-size: 1.05rem;">Rp {{ course.price|floatformat:0 }}</span>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn btn-primary btn-sm">Detail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5" data-aos="fade-up">
+                <p class="text-muted">Belum ada kursus unggulan.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5" data-aos="fade-up">
+            <a href="{% url 'course_list' %}" class="btn btn-primary btn-lg px-5">Lihat Semua Kursus</a>
+        </div>
+    </div>
+</section>
+
+<section class="section-py">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Paket Langganan</h2>
+            <p>Pilih paket yang sesuai kebutuhanmu</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            {% for package in packages %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|floatformat:0 }}0">
+                <div class="pricing-card {% if forloop.first %}featured{% endif %} h-100">
+                    {% if forloop.first %}
+                    <div class="pricing-badge">Paling Populer</div>
+                    {% endif %}
+                    <h5 class="fw-bold mb-3">{{ package.name }}</h5>
+                    <div class="pricing-price">Rp {{ package.price|floatformat:0 }}</div>
+                    <p class="text-muted mb-4">{{ package.duration_months }} bulan akses penuh</p>
+                    <ul class="list-unstyled text-start mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Akses {{ package.max_courses }} kursus</li>
+                        {% if package.has_certificate %}
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Sertifikat resmi</li>
+                        {% endif %}
+                        {% if package.has_mentoring %}
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Mentoring 1-on-1</li>
+                        {% endif %}
+                    </ul>
+                    <a href="{% url 'purchase_confirm' package.pk %}" class="btn {% if forloop.first %}btn-primary{% else %}btn-outline-primary{% endif %} w-100 py-2">
+                        Pilih Paket
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5" data-aos="fade-up">
+                <p class="text-muted">Belum ada paket tersedia.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-py" style="background: var(--ef-bg);">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Testimoni</h2>
+            <p>Apa kata mereka tentang EduFlow</p>
+        </div>
+        <div class="row g-4">
+            {% for t in testimonials %}
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|floatformat:0 }}0">
+                <div class="testimonial-card">
+                    <img src="{{ t.avatar }}" alt="{{ t.name }}" class="testimonial-avatar">
+                    <p class="testimonial-text">"{{ t.text }}"</p>
+                    <h6 class="fw-bold mb-0">{{ t.name }}</h6>
+                    <small class="text-muted">{{ t.role }}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profil{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card-custom p-4" data-aos="fade-up">
+                    <h3 class="fw-bold mb-4">Edit Profil</h3>
+                    <form method="POST" enctype="multipart/form-data" id="editProfileForm">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Username</label>
+                            <input type="text" class="form-control form-control-custom" value="{{ user.username }}" disabled>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="first_name" class="form-label fw-semibold">Nama Depan</label>
+                                <input type="text" class="form-control form-control-custom" id="first_name" name="first_name" value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last_name" class="form-label fw-semibold">Nama Belakang</label>
+                                <input type="text" class="form-control form-control-custom" id="last_name" name="last_name" value="{{ user.last_name }}">
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <label for="email" class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control form-control-custom" id="email" name="email" value="{{ user.email }}">
+                        </div>
+                        {% for field in form %}
+                        {% if field.name != 'photo' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                            <div class="input-group input-group-custom">
+                                <span class="input-group-text bg-transparent border-end-0">
+                                    {% if 'password' in field.label|lower %}<i class="bi bi-lock text-muted"></i>{% else %}<i class="bi bi-person text-muted"></i>{% endif %}
+                                </span>
+                                {{ field }}
+                            </div>
+                            {% for error in field.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                        <div class="mb-3">
+                            <label for="id_photo" class="form-label fw-semibold">Foto Profil</label>
+                            <input type="file" class="form-control form-control-custom" id="id_photo" name="photo" accept="image/*">
+                            {% if user.profile.photo %}
+                            <img src="{{ user.profile.photo.url }}" class="mt-3 rounded" width="100" height="100" alt="Current photo" style="object-fit: cover;">
+                            {% endif %}
+                        </div>
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary" id="editProfileBtn">Simpan Perubahan</button>
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Batal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

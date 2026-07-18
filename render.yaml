@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: eduflow-backend
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput
+    startCommand: gunicorn EduFlow.wsgi:application --log-file -
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_ALLOWED_HOSTS
+        value: .onrender.com
+      - key: DJANGO_DEBUG
+        value: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: eduflow-db
+          property: connectionString
+
+databases:
+  - name: eduflow-db
+    plan: free

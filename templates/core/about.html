@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tentang - EduFlow{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="section-header" data-aos="fade-up">
+            <h2>Tentang EduFlow</h2>
+            <p>Membangun masa depan pendidikan Indonesia</p>
+        </div>
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-5 mb-4 mb-lg-0" data-aos="fade-right">
+                <img src="https://img.freepik.com/free-vector/online-learning-concept-illustration_114360-4792.jpg" alt="Tentang Kami" class="img-fluid rounded shadow" style="border-radius: var(--ef-radius-xl);">
+            </div>
+            <div class="col-lg-7" data-aos="fade-left">
+                <h3 class="fw-bold mb-3">Visi Kami</h3>
+                <p class="text-muted mb-4" style="line-height: 1.8;">Menjadi platform pendidikan online terdepan di Indonesia yang memberikan akses pendidikan berkualitas untuk semua orang, dimanapun dan kapanpun.</p>
+                <h3 class="fw-bold mb-3">Misi Kami</h3>
+                <ul class="text-muted" style="line-height: 2;">
+                    <li>Menyediakan kursus berkualitas dari instruktur profesional.</li>
+                    <li>Membuat pembelajaran lebih mudah diakses dan terjangkau.</li>
+                    <li>Membangun komunitas pembelajar yang kolaboratif dan inspiratif.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-4 text-center" data-aos="fade-up">
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: var(--ef-primary-soft); color: var(--ef-primary);"><i class="bi bi-book-half"></i></div>
+                    <div class="stat-number" data-count="{{ stats.courses }}">0</div>
+                    <div class="stat-label">Kursus</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #d1fae5; color: var(--ef-success);"><i class="bi bi-person-video3"></i></div>
+                    <div class="stat-number" data-count="{{ stats.instructors }}">0</div>
+                    <div class="stat-label">Instruktur</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fef3c7; color: var(--ef-accent);"><i class="bi bi-people"></i></div>
+                    <div class="stat-number" data-count="{{ stats.students }}">0</div>
+                    <div class="stat-label">Peserta</div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #cffafe; color: var(--ef-secondary);"><i class="bi bi-award"></i></div>
+                    <div class="stat-number" data-count="{{ stats.alumni }}">0</div>
+                    <div class="stat-label">Alumni</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

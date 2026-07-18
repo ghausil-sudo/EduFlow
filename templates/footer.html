@@ -1,0 +1,36 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <a href="{% url 'home' %}" class="footer-brand">
+                    <i class="bi bi-mortarboard-fill"></i>EduFlow
+                </a>
+                <p class="mt-2 mb-0" style="color: rgba(255,255,255,0.55); line-height: 1.7;">
+                    Platform kursus online terbaik untuk mengembangkan skill Anda. Belajar dari instruktur profesional dan raih karir impian.
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-white fw-bold mb-3">Link Cepat</h6>
+                <div class="d-flex flex-column gap-2">
+                    <a href="{% url 'home' %}" class="footer-link">Beranda</a>
+                    <a href="{% url 'course_list' %}" class="footer-link">Kursus</a>
+                    <a href="{% url 'about' %}" class="footer-link">Tentang</a>
+                    <a href="{% url 'contact' %}" class="footer-link">Kontak</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h6 class="text-white fw-bold mb-3">Ikuti Kami</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="#" class="footer-social" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="footer-social" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="footer-social" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#" class="footer-social" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.08);">
+        <div class="text-center" style="color: rgba(255,255,255,0.45); font-size: 0.9rem;">
+            &copy; {{ current_year }} EduFlow. All rights reserved.
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Konfirmasi Pesanan{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6" data-aos="fade-up">
+                <div class="card-custom" data-aos="fade-up">
+                    <div class="card-body p-4">
+                        <h3 class="fw-bold mb-4 text-center">Konfirmasi Pesanan</h3>
+                        <div class="p-3 rounded mb-4" style="background: var(--ef-bg); border: 1px solid var(--ef-border-light);">
+                            <h5 class="fw-bold">{{ item_type|capfirst }}</h5>
+                            <p class="mb-1">
+                                {% if item_type == 'course' %}{{ item.title }}
+                                {% else %}{{ item.name }}{% endif %}
+                            </p>
+                            <p class="text-primary fw-bold mb-0">Rp {{ amount|floatformat:0 }}</p>
+                        </div>
+
+                        <form method="POST" action="{% url 'process_payment' %}" id="confirmForm">
+                            {% csrf_token %}
+                            {% if item_type == 'package' %}
+                            <input type="hidden" name="package_id" value="{{ item.pk }}">
+                            {% else %}
+                            <input type="hidden" name="course_slug" value="{{ item.slug }}">
+                            {% endif %}
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold mb-2">Metode Pembayaran</label>
+                                <div class="form-check card-custom p-3 mb-2">
+                                    <input class="form-check-input" type="radio" name="payment_method" id="bank" value="bank_transfer" checked>
+                                    <label class="form-check-label w-100" for="bank">
+                                        <i class="bi bi-bank me-2" style="color: var(--ef-primary);"></i>
+                                        <span class="fw-semibold">Transfer Bank</span>
+                                    </label>
+                                </div>
+                                <div class="form-check card-custom p-3">
+                                    <input class="form-check-input" type="radio" name="payment_method" id="ewallet" value="e_wallet">
+                                    <label class="form-check-label w-100" for="ewallet">
+                                        <i class="bi bi-wallet2 me-2" style="color: var(--ef-secondary);"></i>
+                                        <span class="fw-semibold">E-Wallet</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg" id="confirmBtn" style="border-radius: var(--ef-radius);">Bayar Sekarang</button>
+                                <a href="{% if item_type == 'package' %}{% url 'package_list' %}{% else %}{% url 'course_detail' item.slug %}{% endif %}" class="btn btn-outline-secondary btn-lg" style="border-radius: var(--ef-radius);">Batal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

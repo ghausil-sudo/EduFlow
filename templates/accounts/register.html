@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Registrasi{% endblock %}
+
+{% block content %}
+<div class="auth-split">
+    <div class="auth-split-visual d-none d-lg-flex">
+        <div class="position-relative text-center text-white px-5" data-aos="zoom-in">
+            <div class="position-relative z-2">
+                <h2 class="fw-bold mb-3" style="font-size: 2.5rem; line-height: 1.2;">Mulai Perjalanan Belajarmu</h2>
+                <p class="mb-0" style="font-size: 1.1rem; opacity: 0.8; max-width: 420px; margin: 0 auto;">Daftar sekarang dan akses ratusan kursus dari instruktur profesional.</p>
+            </div>
+        </div>
+    </div>
+    <div class="auth-split-form">
+        <div class="auth-form-card" data-aos="fade-up">
+            <div class="text-center mb-4">
+                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 56px; height: 56px; background: var(--ef-primary-soft); color: var(--ef-primary); font-size: 1.5rem;">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </div>
+                <h3 class="fw-bold mt-2">Daftar Akun Baru</h3>
+                <p class="text-muted">Buat akun untuk mulai belajar</p>
+            </div>
+            <form method="POST" id="registerForm">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                    <div class="input-group input-group-custom">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            {% if "password" in field.label|lower %}<i class="bi bi-lock text-muted"></i>{% else %}<i class="bi bi-person text-muted"></i>{% endif %}
+                        </span>
+                        {{ field }}
+                    </div>
+                    {% for error in field.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                {{ form.non_field_errors }}
+                <button type="submit" class="btn btn-primary w-100 py-2 mt-2" id="registerBtn">Daftar</button>
+            </form>
+            <div class="text-center mt-3">
+                <p class="text-muted">Sudah punya akun? <a href="{% url 'login' %}" class="fw-semibold">Masuk di sini</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

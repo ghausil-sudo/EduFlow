@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard Saya{% endblock %}
+
+{% block content %}
+<section class="section-py">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-3 mb-4 mb-lg-0">
+                <div class="dashboard-sidebar">
+                    <div class="card-custom p-4 text-center">
+                        {% if user.profile.photo %}
+                        <img src="{{ user.profile.photo.url }}" alt="{{ user.username }}" class="rounded-circle mb-3" width="100" height="100" style="object-fit: cover; border: 3px solid var(--ef-primary-soft);">
+                        {% else %}
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 100px; height: 100px; background: var(--ef-primary-soft); color: var(--ef-primary); font-size: 2.5rem;">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        {% endif %}
+                        <h5 class="fw-bold">{{ user.first_name }} {{ user.last_name }}</h5>
+                        <p class="text-muted small mb-3">@{{ user.username }}</p>
+                        <a href="{% url 'edit_profile' %}" class="btn btn-outline-primary btn-sm w-100" style="border-radius: var(--ef-radius);">Edit Profil</a>
+                    </div>
+
+                    {% if active_package %}
+                    <div class="card-custom p-4 mt-3">
+                        <h6 class="fw-bold"><i class="bi bi-star-fill text-warning me-1"></i>Paket Aktif</h6>
+                        <p class="text-primary fw-bold mb-1">{{ active_package.name }}</p>
+                        <p class="text-muted small">Berlaku {{ active_package.duration_months }} bulan</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-lg-9">
+                <div class="card-custom p-4 mb-4">
+                    <h3 class="fw-bold mb-1">Halo, {{ user.first_name }}!</h3>
+                    <p class="text-muted mb-0">Selamat datang di dashboard Anda.</p>
+                </div>
+
+                <div class="row g-3 mb-4" data-aos="fade-up">
+                    <div class="col-6 col-md-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-icon" style="background: var(--ef-primary-soft); color: var(--ef-primary);">
+                                <i class="bi bi-book-half"></i>
+                            </div>
+                            <div>
+                                <div class="dashboard-stat-value" data-count="{{ enrollments|length }}">0</div>
+                                <div class="dashboard-stat-label">Kursus</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-icon" style="background: #d1fae5; color: var(--ef-success);">
+                                <i class="bi bi-check2-circle"></i>
+                            </div>
+                            <div>
+                                <div class="dashboard-stat-value" data-count="{{ enrollments|length|add:0 }}">0</div>
+                                <div class="dashboard-stat-label">Selesai</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-icon" style="background: #fef3c7; color: var(--ef-accent);">
+                                <i class="bi bi-receipt"></i>
+                            </div>
+                            <div>
+                                <div class="dashboard-stat-value" data-count="{{ transactions|length }}">0</div>
+                                <div class="dashboard-stat-label">Transaksi</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="dashboard-stat-card">
+                            <div class="dashboard-stat-icon" style="background: #cffafe; color: var(--ef-secondary);">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                            <div>
+                                <div class="dashboard-stat-value" data-count="{% if active_package %}1{% else %}0{% endif %}">0</div>
+                                <div class="dashboard-stat-label">Paket</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-custom p-4 mb-4" data-aos="fade-up">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-book-half me-2"></i>Kursus Saya</h5>
+                    {% if enrollments %}
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Kursus</th>
+                                    <th>Status</th>
+                                    <th>Progress</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for enrollment in enrollments %}
+                                <tr>
+                                    <td class="fw-semibold">{{ enrollment.course.title }}</td>
+                                    <td>
+                                        <span class="badge {% if enrollment.status == 'Aktif' %}bg-success{% elif enrollment.status == 'Pending' %}bg-warning text-dark{% else %}bg-secondary{% endif %}">
+                                            {{ enrollment.status }}
+                                        </span>
+                                    </td>
+                                    <td style="min-width: 160px;">
+                                        <div class="progress progress-custom">
+                                            <div class="progress-bar progress-bar-custom progress-bar-animated" role="progressbar" data-width="{{ enrollment.progress }}%" style="width: 0%;"></div>
+                                        </div>
+                                        <small class="text-muted">{{ enrollment.progress }}%</small>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'course_detail' enrollment.course.slug %}" class="btn btn-outline-primary btn-sm" style="border-radius: var(--ef-radius);">Lihat</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-md-none">
+                        {% for enrollment in enrollments %}
+                        <div class="card border mb-3" style="border-radius: var(--ef-radius);">
+                            <div class="card-body">
+                                <h6 class="fw-bold">{{ enrollment.course.title }}</h6>
+                                <span class="badge {% if enrollment.status == 'Aktif' %}bg-success{% elif enrollment.status == 'Pending' %}bg-warning text-dark{% else %}bg-secondary{% endif %} mb-2">{{ enrollment.status }}</span>
+                                <div class="progress progress-custom mb-1">
+                                    <div class="progress-bar progress-bar-custom progress-bar-animated" role="progressbar" data-width="{{ enrollment.progress }}%" style="width: 0%;"></div>
+                                </div>
+                                <small class="text-muted">{{ enrollment.progress }}%</small>
+                                <a href="{% url 'course_detail' enrollment.course.slug %}" class="btn btn-outline-primary btn-sm mt-2 w-100" style="border-radius: var(--ef-radius);">Lihat Kursus</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">Anda belum mengikuti kursus apapun. <a href="{% url 'course_list' %}">Jelajahi kursus</a></p>
+                    {% endif %}
+                </div>
+
+                <div class="card-custom p-4" data-aos="fade-up">
+                    <h5 class="fw-bold mb-3"><i class="bi bi-receipt me-2"></i>Riwayat Transaksi</h5>
+                    {% if transactions %}
+                    <div class="table-responsive d-none d-md-block">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Item</th>
+                                    <th>Jumlah</th>
+                                    <th>Status</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for tx in transactions %}
+                                <tr>
+                                    <td class="small font-monospace">{{ tx.invoice_number }}</td>
+                                    <td>
+                                        {% if tx.course %}{{ tx.course.title }}
+                                        {% elif tx.package %}{{ tx.package.name }}
+                                        {% else %}-{% endif %}
+                                    </td>
+                                    <td>Rp {{ tx.amount|floatformat:0 }}</td>
+                                    <td>
+                                        <span class="badge {% if tx.status == 'Berhasil' %}bg-success{% elif tx.status == 'Pending' %}bg-warning text-dark{% else %}bg-danger{% endif %}">
+                                            {{ tx.status }}
+                                        </span>
+                                    </td>
+                                    <td class="small">{{ tx.transaction_date|date:"d/m/Y" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-md-none">
+                        {% for tx in transactions %}
+                        <div class="card border mb-2" style="border-radius: var(--ef-radius);">
+                            <div class="card-body py-2">
+                                <div class="d-flex justify-content-between">
+                                    <strong class="small">{{ tx.invoice_number }}</strong>
+                                    <span class="badge {% if tx.status == 'Berhasil' %}bg-success{% elif tx.status == 'Pending' %}bg-warning text-dark{% else %}bg-danger{% endif %}">{{ tx.status }}</span>
+                                </div>
+                                <p class="small text-muted mb-1">
+                                    {% if tx.course %}{{ tx.course.title }}
+                                    {% elif tx.package %}{{ tx.package.name }}
+                                    {% else %}-{% endif %}
+                                </p>
+                                <small class="text-muted">{{ tx.transaction_date|date:"d/m/Y" }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted mb-0">Belum ada transaksi.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
