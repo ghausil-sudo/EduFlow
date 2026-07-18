@@ -25,7 +25,19 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-n8o-%v7x#ea$ij
 
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if os.environ.get('DJANGO_ALLOWED_HOSTS') else []
+_raw_allowed_hosts = os.environ.get('DJANGO_ALLOWED_HOSTS', '')
+ALLOWED_HOSTS = [h.strip() for h in _raw_allowed_hosts.split(',') if h.strip()] if _raw_allowed_hosts else []
+
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['*']
+
+_raw_csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
+if _raw_csrf_origins:
+    CSRF_TRUSTED_ORIGINS = [h.strip() for h in _raw_csrf_origins.split(',') if h.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = [f'https://*.{host}' for host in ALLOWED_HOSTS if host != '*']
+    if not CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://*.onrender.com']
 
 
 # Application definition
