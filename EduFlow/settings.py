@@ -31,13 +31,19 @@ ALLOWED_HOSTS = [h.strip() for h in _raw_allowed_hosts.split(',') if h.strip()] 
 if not ALLOWED_HOSTS:
     ALLOWED_HOSTS = ['*']
 
+_railway_host = os.environ.get('RAILWAY_PUBLIC_DOMAIN', 'eduflow-backend-production-c5c6.up.railway.app')
+_railway_origin = f'https://{_railway_host}'
+
 _raw_csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', '')
 if _raw_csrf_origins:
     CSRF_TRUSTED_ORIGINS = [h.strip() for h in _raw_csrf_origins.split(',') if h.strip()]
 else:
-    CSRF_TRUSTED_ORIGINS = [f'https://*.{host}' for host in ALLOWED_HOSTS if host != '*']
-    if not CSRF_TRUSTED_ORIGINS:
-        CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app', 'https://*.onrender.com']
+    CSRF_TRUSTED_ORIGINS = [_railway_origin]
+    for host in ALLOWED_HOSTS:
+        if host and host != '*':
+            CSRF_TRUSTED_ORIGINS.append(f'https://{host}')
+            CSRF_TRUSTED_ORIGINS.append(f'https://*.{host}')
+    CSRF_TRUSTED_ORIGINS = list(set(CSRF_TRUSTED_ORIGINS))
 
 
 # Application definition
